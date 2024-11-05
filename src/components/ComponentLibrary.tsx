@@ -1,60 +1,51 @@
-import { ScrollArea } from '@/components/ui/scroll-area';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { Textarea } from '@/components/ui/textarea';
-import { Dialog } from '@/components/ui/dialog';
-import { Card } from '@/components/ui/card';
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
-import { useDraggable } from '@/hooks/useDraggable';
-import { cn } from '@/lib/utils';
-import * as Icons from 'lucide-react';
+import { ScrollArea } from "@/components/ui/scroll-area";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
+import { useDraggable } from "@/hooks/useDraggable";
+import { cn } from "@/lib/utils";
 
 const components = {
   layout: [
-    { name: 'Container', icon: 'Box' },
-    { name: 'Grid', icon: 'Grid' },
-    { name: 'Stack', icon: 'Layers' },
+    { name: "Container", icon: "Box" },
+    { name: "Grid", icon: "Grid" },
+    { name: "Stack", icon: "Layers" },
   ],
   ui: [
-    { name: 'Button', icon: 'Square' },
-    { name: 'Input', icon: 'Input' },
-    { name: 'Textarea', icon: 'AlignLeft' },
-    { name: 'Label', icon: 'Tag' },
-    { name: 'Dialog', icon: 'MessageSquare' },
-    { name: 'Card', icon: 'CreditCard' },
+    { name: "Button", icon: "Square" },
+    { name: "Input", icon: "Input" },
+    { name: "Textarea", icon: "AlignLeft" },
+    { name: "Label", icon: "Tag" },
+    { name: "Dialog", icon: "MessageSquare" },
+    { name: "Card", icon: "CreditCard" },
   ],
   navigation: [
-    { name: 'Link', icon: 'Link' },
-    { name: 'Tabs', icon: 'Layout' },
-    { name: 'Breadcrumb', icon: 'ChevronRight' },
+    { name: "Link", icon: "Link" },
+    { name: "Tabs", icon: "Layout" },
+    { name: "Breadcrumb", icon: "ChevronRight" },
   ],
 };
 
-interface ComponentLibraryProps {
-  onAddComponent: (component: any) => void;
-}
-
-export function ComponentLibrary({ onAddComponent }: ComponentLibraryProps) {
+export function ComponentLibrary() {
   const { dragRef, isDragging } = useDraggable();
 
   const renderComponent = (item: { name: string; icon: string }) => {
-    const Icon = Icons[item.icon as keyof typeof Icons];
-    
     return (
       <div
         key={item.name}
         ref={dragRef}
         className={cn(
           "flex items-center gap-2 p-2 rounded-md cursor-move hover:bg-accent",
-          isDragging && "opacity-50"
+          isDragging && "opacity-50",
         )}
         draggable
         onDragStart={(e) => {
-          e.dataTransfer.setData('component', JSON.stringify(item));
+          e.dataTransfer.setData("component", JSON.stringify(item));
         }}
       >
-        {Icon && <Icon className="w-4 h-4" />}
         <span>{item.name}</span>
       </div>
     );

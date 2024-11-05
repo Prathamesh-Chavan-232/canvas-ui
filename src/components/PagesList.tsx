@@ -1,7 +1,7 @@
-import { ScrollArea } from '@/components/ui/scroll-area';
-import { Button } from '@/components/ui/button';
-import { PlusCircle, File } from 'lucide-react';
-import { cn } from '@/lib/utils';
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { Button } from "@/components/ui/button";
+import { PlusCircle, File } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 interface PagesListProps {
   pages: any[];
@@ -10,7 +10,12 @@ interface PagesListProps {
   onAddPage: () => void;
 }
 
-export function PagesList({ pages, currentPage, onSelectPage, onAddPage }: PagesListProps) {
+export function PagesList({
+  pages,
+  currentPage,
+  onSelectPage,
+  onAddPage,
+}: PagesListProps) {
   return (
     <div className="h-full flex flex-col">
       <div className="p-4 border-b">
@@ -28,7 +33,7 @@ export function PagesList({ pages, currentPage, onSelectPage, onAddPage }: Pages
                 "flex items-center gap-2 w-full p-2 rounded-md text-left",
                 currentPage?.id === page.id
                   ? "bg-primary text-primary-foreground"
-                  : "hover:bg-accent"
+                  : "hover:bg-accent",
               )}
               onClick={() => onSelectPage(page)}
             >
@@ -41,3 +46,4 @@ export function PagesList({ pages, currentPage, onSelectPage, onAddPage }: Pages
     </div>
   );
 }
+

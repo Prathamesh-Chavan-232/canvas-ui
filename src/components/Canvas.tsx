@@ -1,15 +1,10 @@
-import { useDroppable } from '@/hooks/useDroppable';
-import { cn } from '@/lib/utils';
-import { ScrollArea } from '@/components/ui/scroll-area';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { Textarea } from '@/components/ui/textarea';
-import { Dialog } from '@/components/ui/dialog';
-import { Card } from '@/components/ui/card';
-import { useState } from 'react';
-import * as Icons from 'lucide-react';
-import { Trash2 } from 'lucide-react';
+import { useDroppable } from "@/hooks/useDroppable";
+import { cn } from "@/lib/utils";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { Button } from "@/components/ui/button";
+import { useState } from "react";
+import * as Icons from "lucide-react";
+import { Trash2 } from "lucide-react";
 
 interface CanvasProps {
   currentPage: any;
@@ -18,17 +13,17 @@ interface CanvasProps {
   onUpdateComponent: (id: string, content: any) => void;
 }
 
-export function Canvas({ currentPage, components, onUpdatePage, onUpdateComponent }: CanvasProps) {
+export function Canvas({ currentPage, onUpdatePage }: CanvasProps) {
   const { dropRef, isOver } = useDroppable();
   const [selectedComponent, setSelectedComponent] = useState(null);
 
   const handleDrop = (e: React.DragEvent) => {
-    const component = JSON.parse(e.dataTransfer.getData('component'));
+    const component = JSON.parse(e.dataTransfer.getData("component"));
     const position = {
       x: e.clientX - dropRef.current?.getBoundingClientRect().left,
       y: e.clientY - dropRef.current?.getBoundingClientRect().top,
     };
-    
+
     onUpdatePage({
       ...currentPage,
       components: [
@@ -51,7 +46,9 @@ export function Canvas({ currentPage, components, onUpdatePage, onUpdateComponen
     e.stopPropagation();
     onUpdatePage({
       ...currentPage,
-      components: currentPage.components.filter((c: any) => c.id !== componentId),
+      components: currentPage.components.filter(
+        (c: any) => c.id !== componentId,
+      ),
     });
     setSelectedComponent(null);
   };
@@ -64,7 +61,7 @@ export function Canvas({ currentPage, components, onUpdatePage, onUpdateComponen
             ref={dropRef}
             className={cn(
               "relative min-h-full w-full rounded-lg border-2 border-dashed p-8",
-              isOver && "border-primary bg-primary/10"
+              isOver && "border-primary bg-primary/10",
             )}
             onDrop={handleDrop}
             onDragOver={(e) => e.preventDefault()}
@@ -73,13 +70,13 @@ export function Canvas({ currentPage, components, onUpdatePage, onUpdateComponen
             {currentPage?.components?.map((component: any) => {
               const Icon = Icons[component.icon as keyof typeof Icons];
               const isSelected = selectedComponent?.id === component.id;
-              
+
               return (
                 <div
                   key={component.id}
                   className={cn(
                     "absolute p-4 rounded-md border cursor-move bg-background",
-                    isSelected && "ring-2 ring-primary"
+                    isSelected && "ring-2 ring-primary",
                   )}
                   style={{
                     left: component.position.x,
@@ -111,3 +108,4 @@ export function Canvas({ currentPage, components, onUpdatePage, onUpdateComponen
     </div>
   );
 }
+
