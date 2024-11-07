@@ -7,6 +7,11 @@ import { CustomComponent, DraggableItem, Page } from "@/types/common/resources";
 import { generateComponentCode } from "@/lib/codeGenerators/react";
 import SiteBuilderSidebar from "@/components/siteBuilder/sidebar/SiteBuilderSidebar";
 import { Canvas } from "@/components/siteBuilder/Canvas";
+import {
+  ResizableHandle,
+  ResizablePanel,
+  ResizablePanelGroup,
+} from "@/components/ui/resizable";
 
 export default function SiteBuilderHome() {
   const [pages, setPages] = useState<Page[]>([{ name: "Home", elements: [] }]);
@@ -100,43 +105,58 @@ export default function SiteBuilderHome() {
 
   return (
     <DndProvider backend={HTML5Backend}>
-      <div className="w-full flex min-h-screen">
-        <SiteBuilderSidebar
-          pages={pages}
-          customComponents={customComponents}
-          activePageIndex={activePageIndex}
-          activeComponentIndex={activeComponentIndex}
-          setActivePageIndex={setActivePageIndex}
-          setActiveComponentIndex={setActiveComponentIndex}
-          addPage={addPage}
-          addComponent={addComponent}
-        />
-        <div className="w-full p-4">
-          <Tabs
-            value={activeTab}
-            onValueChange={setActiveTab}
-            className="w-full"
-          >
-            <TabsList className="h-18 p-1 space-x-1 rounded-sm">
-              <TabsTrigger value="canvas" className="rounded-sm bg-transparent">
-                Canvas
-              </TabsTrigger>
-              <TabsTrigger value="code" className="rounded-sm bg-transparent">
-                Code
-              </TabsTrigger>
-            </TabsList>
-            <TabsContent value="canvas">
-              <Canvas
-                elements={activeElements}
-                onDrop={handleDrop}
-                moveComponent={moveComponent}
-              />
-            </TabsContent>
-            <TabsContent value="code">
-              <CodePreview code={generateCode()} />
-            </TabsContent>
-          </Tabs>
-        </div>
+      <div className="w-screen min-h-screen">
+        {/* Left - sidebar */}
+        <ResizablePanelGroup direction="horizontal">
+          <ResizablePanel defaultSize={20} minSize={15}>
+            <SiteBuilderSidebar
+              pages={pages}
+              customComponents={customComponents}
+              activePageIndex={activePageIndex}
+              activeComponentIndex={activeComponentIndex}
+              setActivePageIndex={setActivePageIndex}
+              setActiveComponentIndex={setActiveComponentIndex}
+              addPage={addPage}
+              addComponent={addComponent}
+            />
+          </ResizablePanel>
+          <ResizableHandle />
+          {/* Right - Canvas & Code */}
+          <ResizablePanel minSize={50}>
+            <div className="p-4">
+              <Tabs
+                value={activeTab}
+                onValueChange={setActiveTab}
+                className="w-full"
+              >
+                <TabsList className="h-18 p-1 space-x-1 rounded-sm">
+                  <TabsTrigger
+                    value="canvas"
+                    className="rounded-sm bg-transparent"
+                  >
+                    Canvas
+                  </TabsTrigger>
+                  <TabsTrigger
+                    value="code"
+                    className="rounded-sm bg-transparent"
+                  >
+                    Code
+                  </TabsTrigger>
+                </TabsList>
+                <TabsContent value="canvas">
+                  <Canvas
+                    elements={activeElements}
+                    onDrop={handleDrop}
+                    moveComponent={moveComponent}
+                  />
+                </TabsContent>
+                <TabsContent value="code">
+                  <CodePreview code={generateCode()} />
+                </TabsContent>
+              </Tabs>
+            </div>
+          </ResizablePanel>
+        </ResizablePanelGroup>
       </div>
     </DndProvider>
   );
