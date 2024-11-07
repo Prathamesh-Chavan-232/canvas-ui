@@ -1,6 +1,6 @@
 import React from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import DropZone from "../common/Dropzone";
+import { DropZone } from "../common/Dropzone";
 
 interface TabsViewProps {
   activeTab: string;

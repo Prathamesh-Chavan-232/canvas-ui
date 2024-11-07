@@ -1,37 +1,40 @@
-import React, { ReactNode } from "react";
+import { DraggableItem } from "@/types/common/resources";
+import React from "react";
 import { useDrop } from "react-dnd";
 
-interface IDropZoneProps {
-  onDrop: (item: any) => void;
-  type: string;
-  index: number;
+interface DropZoneProps {
+  onDrop: (item: DraggableItem) => void;
+  children: React.ReactNode;
   moveComponent: (dragIndex: number, hoverIndex: number) => void;
-  children: ReactNode;
 }
 
-const DropZone: React.FC<IDropZoneProps> = ({ onDrop, children }) => {
+export const DropZone: React.FC<DropZoneProps> = ({
+  onDrop,
+  children,
+  moveComponent,
+}) => {
   const [, drop] = useDrop(() => ({
     accept: "component",
-    drop: (item, monitor) => {
-      if (!monitor.didDrop()) {
-        onDrop(item);
+    drop: (item: DraggableItem, monitor) => {
+      const didDrop = monitor.didDrop();
+      if (didDrop) {
+        return;
       }
+      onDrop(item);
     },
   }));
 
   return (
     <div
       ref={drop}
-      style={{
-        minHeight: "300px",
-        border: "2px dashed #ccc",
-        padding: "16px",
-        borderRadius: "8px",
-      }}
+      className="min-h-[300px] border-2 border-dashed border-gray-300 bg-transparent p-4 rounded-lg"
     >
-      {children}
+      {React.Children.map(children, (child, index) =>
+        React.cloneElement(child as React.ReactElement, {
+          index,
+          moveComponent,
+        }),
+      )}
     </div>
   );
 };
-
-export default DropZone;

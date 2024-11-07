@@ -1,13 +1,13 @@
+import { Button } from "@/components/ui/button";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Separator } from "@radix-ui/react-separator";
 import { ReactNode } from "react";
-import { Button } from "react-day-picker";
 import { Link } from "react-router-dom";
 import { Label } from "recharts";
 
-interface IUIComponent {
+export interface IUIComponent {
   name: string;
   render: () => ReactNode;
 }

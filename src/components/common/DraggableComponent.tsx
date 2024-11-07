@@ -1,15 +1,17 @@
-import { useDrag, useDrop } from "react-dnd";
+import { baseComponents } from "@/lib/Components";
+import { DraggableItem } from "@/types/common/resources";
 import React from "react";
+import { useDrag, useDrop } from "react-dnd";
 
-interface IDraggableComponentProps {
+interface DraggableComponentProps {
   name: string;
   type: string;
   index: number;
-  moveComponent?: (dragIndex: number, hoverIndex: number) => void;
+  moveComponent: (dragIndex: number, hoverIndex: number) => void;
   isUIElement?: boolean;
 }
 
-const DraggableComponent: React.FC<IDraggableComponentProps> = ({
+export const DraggableComponent: React.FC<DraggableComponentProps> = ({
   name,
   type,
   index,
@@ -26,15 +28,23 @@ const DraggableComponent: React.FC<IDraggableComponentProps> = ({
 
   const [, drop] = useDrop(() => ({
     accept: "component",
-    hover(item: any) {
-      if (!moveComponent) return;
+    hover(item: DraggableItem & { index: number }) {
+      if (!moveComponent) {
+        return;
+      }
       const dragIndex = item.index;
       const hoverIndex = index;
-      if (dragIndex === hoverIndex) return;
+      if (dragIndex === hoverIndex) {
+        return;
+      }
       moveComponent(dragIndex, hoverIndex);
       item.index = hoverIndex;
     },
   }));
+
+  const renderComponent = baseComponents[type]
+    ? baseComponents[type].render
+    : () => <div>Unknown Component</div>;
 
   return (
     <div
@@ -45,9 +55,7 @@ const DraggableComponent: React.FC<IDraggableComponentProps> = ({
         marginBottom: "8px",
       }}
     >
-      {name}
+      {renderComponent()}
     </div>
   );
 };
-
-export default DraggableComponent;

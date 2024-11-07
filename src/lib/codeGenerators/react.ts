@@ -1,4 +1,4 @@
-import { baseComponents } from "../uiElements";
+import { baseComponents } from "../Components";
 
 interface IgenerateCodeProps {
   elements: { type: string }[];
