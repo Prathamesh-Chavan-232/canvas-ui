@@ -117,9 +117,13 @@ export default function SiteBuilderHome() {
             onValueChange={setActiveTab}
             className="w-full"
           >
-            <TabsList>
-              <TabsTrigger value="canvas">Canvas</TabsTrigger>
-              <TabsTrigger value="code">Code</TabsTrigger>
+            <TabsList className="h-18 p-1 space-x-1 rounded-sm">
+              <TabsTrigger value="canvas" className="rounded-sm bg-transparent">
+                Canvas
+              </TabsTrigger>
+              <TabsTrigger value="code" className="rounded-sm bg-transparent">
+                Code
+              </TabsTrigger>
             </TabsList>
             <TabsContent value="canvas">
               <Canvas
