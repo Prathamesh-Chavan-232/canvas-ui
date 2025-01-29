@@ -2,11 +2,11 @@ import { useState, useCallback } from "react";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { CodePreview } from "@/components/siteBuilder/CodePreview";
+import { CodePreview } from "@/components/site-builder/CodePreview";
 import { CustomComponent, DraggableItem, Page } from "@/types/common/resources";
 import { generateComponentCode } from "@/lib/codeGenerators/react";
-import SiteBuilderSidebar from "@/components/siteBuilder/sidebar/SiteBuilderSidebar";
-import { Canvas } from "@/components/siteBuilder/Canvas";
+import SiteBuilderSidebar from "@/components/site-builder/sidebar/SiteBuilderSidebar";
+import { Canvas } from "@/components/site-builder/Canvas";
 import {
   ResizableHandle,
   ResizablePanel,
@@ -105,7 +105,7 @@ export default function SiteBuilderHome() {
 
   return (
     <DndProvider backend={HTML5Backend}>
-      <div className="w-screen min-h-screen">
+      <div className="w-screen min-h-screen bg-background">
         {/* Left - sidebar */}
         <ResizablePanelGroup direction="horizontal">
           <ResizablePanel defaultSize={20} minSize={15}>
@@ -143,11 +143,29 @@ export default function SiteBuilderHome() {
                     Code
                   </TabsTrigger>
                 </TabsList>
-                <TabsContent value="canvas">
+                <TabsContent
+                  value="canvas"
+                  className="min-h-[600px] border rounded-lg p-4"
+                >
                   <Canvas
                     elements={activeElements}
                     onDrop={handleDrop}
                     moveComponent={moveComponent}
+                    onDelete={(index: number) => {
+                      if (activeComponentIndex !== null) {
+                        setCustomComponents(prev => {
+                          const newComponents = [...prev];
+                          newComponents[activeComponentIndex].elements.splice(index, 1);
+                          return newComponents;
+                        });
+                      } else {
+                        setPages(prev => {
+                          const newPages = [...prev];
+                          newPages[activePageIndex].elements.splice(index, 1);
+                          return newPages;
+                        });
+                      }
+                    }}
                   />
                 </TabsContent>
                 <TabsContent value="code">

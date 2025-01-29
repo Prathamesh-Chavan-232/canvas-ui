@@ -9,6 +9,7 @@ interface DraggableComponentProps {
   index: number;
   moveComponent: (dragIndex: number, hoverIndex: number) => void;
   isUIElement?: boolean;
+  onDelete?: (index: number) => void;
 }
 
 export const DraggableComponent: React.FC<DraggableComponentProps> = ({

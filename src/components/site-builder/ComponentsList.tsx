@@ -1,6 +1,6 @@
 import React from "react";
-import { DraggableComponent } from "../common/DraggableComponent";
 import { IUIComponent } from "@/lib/Components";
+import { DraggableComponent } from "../common/DraggableComponent";
 
 interface ComponentListProps {
   title: string;
