@@ -1,12 +1,13 @@
-import { createBrowserRouter } from "react-router-dom";
+import { createBrowserRouter } from "react-router";
 import Layout from "./components/common/Layout";
-import SiteBuilderHome from "./pages/SiteBuilderHome";
+import SiteBuilder from "./pages/SiteBuilder";
 import ProjectsPage from "./pages/ProjectsPage";
 import SettingsPage from "./pages/SettingsPage";
 import CustomComponentsPage from "./pages/CustomComponentsPage";
 import DashboardPage from "./pages/DashboardPage";
 import TemplatesPage from "./pages/TemplatesPage";
 import PreviewPage from "./pages/PreviewPage";
+import TemplatePreviewPage from "./pages/TemplatePreviewPage";
 
 const router = createBrowserRouter([
   {
@@ -23,7 +24,7 @@ const router = createBrowserRouter([
       },
       {
         path: "/builder/:projectId",
-        element: <SiteBuilderHome />,
+        element: <SiteBuilder />,
       },
       {
         path: "/templates",
@@ -38,11 +39,15 @@ const router = createBrowserRouter([
         element: <PreviewPage />,
       },
       {
+        path: "/preview/template/:templateId",
+        element: <TemplatePreviewPage />,
+      },
+      {
         path: "/settings",
         element: <SettingsPage />,
       },
     ],
   },
-]); 
+]);
 
 export default router;

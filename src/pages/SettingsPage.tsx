@@ -5,13 +5,17 @@ export default function SettingsPage() {
       <div className="max-w-2xl space-y-4">
         <div className="border rounded-lg p-4">
           <h2 className="text-xl font-semibold mb-2">Theme</h2>
-          <p className="text-muted-foreground">Customize the appearance of your site builder</p>
+          <p className="text-muted-foreground">
+            Customize the appearance of your site builder
+          </p>
         </div>
         <div className="border rounded-lg p-4">
           <h2 className="text-xl font-semibold mb-2">Account</h2>
-          <p className="text-muted-foreground">Manage your account settings and preferences</p>
+          <p className="text-muted-foreground">
+            Manage your account settings and preferences
+          </p>
         </div>
       </div>
     </div>
   );
-} 
+}

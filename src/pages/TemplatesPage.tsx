@@ -1,39 +1,47 @@
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+  CardDescription,
+} from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router";
 import { Eye, ArrowRight } from "lucide-react";
 
 export default function TemplatesPage() {
   const navigate = useNavigate();
-  
+
   const templates = [
-    { 
-      id: 1, 
-      name: "Landing Page", 
-      description: "Modern landing page template with hero section, features, and CTA",
+    {
+      id: 1,
+      name: "Landing Page",
+      description:
+        "Modern landing page template with hero section, features, and CTA",
       thumbnail: "https://placehold.co/600x400",
-      category: "Marketing"
+      category: "Marketing",
     },
-    { 
-      id: 2, 
-      name: "Blog", 
-      description: "Clean blog layout with sidebar, featured posts, and newsletter signup",
+    {
+      id: 2,
+      name: "Blog",
+      description:
+        "Clean blog layout with sidebar, featured posts, and newsletter signup",
       thumbnail: "https://placehold.co/600x400",
-      category: "Content"
+      category: "Content",
     },
-    { 
-      id: 3, 
-      name: "Portfolio", 
+    {
+      id: 3,
+      name: "Portfolio",
       description: "Showcase your work with this elegant portfolio template",
       thumbnail: "https://placehold.co/600x400",
-      category: "Personal"
+      category: "Personal",
     },
-    { 
-      id: 4, 
-      name: "E-commerce", 
+    {
+      id: 4,
+      name: "E-commerce",
       description: "Complete online store template with product grid and cart",
       thumbnail: "https://placehold.co/600x400",
-      category: "Business"
+      category: "Business",
     },
   ];
 
@@ -42,16 +50,21 @@ export default function TemplatesPage() {
       <div className="flex justify-between items-center mb-8">
         <div>
           <h1 className="text-4xl font-bold mb-2">Templates</h1>
-          <p className="text-muted-foreground text-lg">Start with a pre-built template and customize it to your needs</p>
+          <p className="text-muted-foreground text-lg">
+            Start with a pre-built template and customize it to your needs
+          </p>
         </div>
       </div>
 
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
         {templates.map((template) => (
-          <Card key={template.id} className="group hover:shadow-lg transition-all duration-300">
+          <Card
+            key={template.id}
+            className="group hover:shadow-lg transition-all duration-300"
+          >
             <div className="relative overflow-hidden">
-              <img 
-                src={template.thumbnail} 
+              <img
+                src={template.thumbnail}
                 alt={template.name}
                 className="w-full h-48 object-cover transition-transform duration-300 group-hover:scale-105"
               />
@@ -66,14 +79,16 @@ export default function TemplatesPage() {
               <CardDescription>{template.description}</CardDescription>
             </CardHeader>
             <CardContent className="flex gap-3">
-              <Button 
-                variant="outline" 
+              <Button
+                variant="outline"
                 size="sm"
-                onClick={() => window.open(`/preview/template/${template.id}`, '_blank')}
+                onClick={() =>
+                  window.open(`/preview/template/${template.id}`, "_blank")
+                }
               >
                 <Eye className="mr-2 h-4 w-4" /> Preview
               </Button>
-              <Button 
+              <Button
                 size="sm"
                 onClick={() => navigate(`/builder/new?template=${template.id}`)}
               >
@@ -85,4 +100,4 @@ export default function TemplatesPage() {
       </div>
     </div>
   );
-} 
+}

@@ -1,4 +1,4 @@
-import { useParams } from "react-router-dom";
+import { useParams } from "react-router";
 import { Button } from "@/components/ui/button";
 import { Eye, Code, Share2 } from "lucide-react";
 
@@ -26,4 +26,4 @@ export default function PreviewPage() {
       </div>
     </div>
   );
-} 
+}
