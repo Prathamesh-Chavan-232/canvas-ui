@@ -19,7 +19,10 @@ import {
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { toast } from "@/hooks/useToast";
 import templates from "@/components/templates";
-import { TemplatesGalleryProps } from "../editorTypes";
+
+interface TemplatesGalleryProps {
+  id?: string;
+}
 
 export const TemplatesGallery: React.FC<TemplatesGalleryProps> = ({ id }) => {
   const { actions } = useEditor();

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { ReactElement, ReactNode } from "react";
 import { Element, useEditor } from "@craftjs/core";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import {
@@ -7,7 +7,6 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-
 import {
   CraftButton,
   CraftInput,
@@ -16,8 +15,7 @@ import {
   Container,
   Heading,
   Paragraph,
-} from "../Editor";
-import { ComponentItemProps } from "../editorTypes";
+} from "../nodes/nodes";
 
 interface PanelHeadingProps {
   title: string;
@@ -31,6 +29,12 @@ export const PanelHeading: React.FC<PanelHeadingProps> = ({ title }) => {
   );
 };
 
+interface ComponentItemProps {
+  title: string;
+  icon: ReactNode;
+  component: ReactElement | null;
+}
+
 const ComponentItem: React.FC<ComponentItemProps> = ({
   title,
   icon,
@@ -38,9 +42,16 @@ const ComponentItem: React.FC<ComponentItemProps> = ({
 }) => {
   const { connectors } = useEditor();
 
+  // Make sure component is a valid React element
+  const validComponent = React.isValidElement(component) ? component : null;
+
+  if (!validComponent) {
+    return null;
+  }
+
   return (
     <div
-      ref={(ref) => ref && connectors.create(ref, component)}
+      ref={(ref) => ref && connectors.create(ref, validComponent)}
       className="flex items-center p-2 border rounded-md hover:border-primary cursor-move mb-2 bg-background"
     >
       <div className="mr-2 text-muted-foreground">{icon}</div>

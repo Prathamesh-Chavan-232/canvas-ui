@@ -7,7 +7,10 @@ import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { PanelHeading } from "./ComponentsPanel";
 import { Input } from "@/components/ui/input";
+import { ComponentType } from "react";
+import { NodeProps, NodeSettingsProps } from "../editorTypes";
 
+// Define types for spacing controls
 type SpacingValue = string | number | undefined;
 
 interface SpacingControlProps {
@@ -178,7 +181,7 @@ export const TypographyControls = ({
           <Label className="text-xs mb-1 block">Font Weight</Label>
           <select
             className="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm"
-            value={fontWeight || ""}
+            value={fontWeight?.toString() || ""}
             onChange={(e) => onFontWeightChange(e.target.value)}
           >
             <option value="">Default</option>
@@ -224,25 +227,7 @@ export const TypographyControls = ({
 };
 
 interface StyleControlsProps {
-  nodeProps: {
-    width?: string | number;
-    height?: string | number;
-    paddingTop?: string | number;
-    paddingRight?: string | number;
-    paddingBottom?: string | number;
-    paddingLeft?: string | number;
-    marginTop?: string | number;
-    marginRight?: string | number;
-    marginBottom?: string | number;
-    marginLeft?: string | number;
-    color?: string;
-    backgroundColor?: string;
-    fontSize?: string | number;
-    fontWeight?: string | number;
-    fontStyle?: string;
-    textAlign?: string;
-    setProp: (cb: (props: any) => void) => void;
-  };
+  nodeProps: NodeProps;
 }
 
 export const StyleControls = ({ nodeProps }: StyleControlsProps) => {
@@ -281,15 +266,15 @@ export const StyleControls = ({ nodeProps }: StyleControlsProps) => {
           </CardHeader>
           <CardContent>
             <SizeControls
-              width={width}
-              height={height}
+              width={width as string | number | undefined}
+              height={height as string | number | undefined}
               onWidthChange={(value) =>
-                setProp((props: any) => {
+                setProp((props) => {
                   props.width = value;
                 })
               }
               onHeightChange={(value) =>
-                setProp((props: any) => {
+                setProp((props) => {
                   props.height = value;
                 })
               }
@@ -304,27 +289,27 @@ export const StyleControls = ({ nodeProps }: StyleControlsProps) => {
           <CardContent>
             <SpacingControl
               label="Padding"
-              top={paddingTop}
-              right={paddingRight}
-              bottom={paddingBottom}
-              left={paddingLeft}
+              top={paddingTop as SpacingValue}
+              right={paddingRight as SpacingValue}
+              bottom={paddingBottom as SpacingValue}
+              left={paddingLeft as SpacingValue}
               onTopChange={(value) =>
-                setProp((props: any) => {
+                setProp((props) => {
                   props.paddingTop = value;
                 })
               }
               onRightChange={(value) =>
-                setProp((props: any) => {
+                setProp((props) => {
                   props.paddingRight = value;
                 })
               }
               onBottomChange={(value) =>
-                setProp((props: any) => {
+                setProp((props) => {
                   props.paddingBottom = value;
                 })
               }
               onLeftChange={(value) =>
-                setProp((props: any) => {
+                setProp((props) => {
                   props.paddingLeft = value;
                 })
               }
@@ -339,27 +324,27 @@ export const StyleControls = ({ nodeProps }: StyleControlsProps) => {
           <CardContent>
             <SpacingControl
               label="Margin"
-              top={marginTop}
-              right={marginRight}
-              bottom={marginBottom}
-              left={marginLeft}
+              top={marginTop as SpacingValue}
+              right={marginRight as SpacingValue}
+              bottom={marginBottom as SpacingValue}
+              left={marginLeft as SpacingValue}
               onTopChange={(value) =>
-                setProp((props: any) => {
+                setProp((props) => {
                   props.marginTop = value;
                 })
               }
               onRightChange={(value) =>
-                setProp((props: any) => {
+                setProp((props) => {
                   props.marginRight = value;
                 })
               }
               onBottomChange={(value) =>
-                setProp((props: any) => {
+                setProp((props) => {
                   props.marginBottom = value;
                 })
               }
               onLeftChange={(value) =>
-                setProp((props: any) => {
+                setProp((props) => {
                   props.marginLeft = value;
                 })
               }
@@ -375,27 +360,27 @@ export const StyleControls = ({ nodeProps }: StyleControlsProps) => {
           </CardHeader>
           <CardContent>
             <TypographyControls
-              fontSize={fontSize}
-              fontWeight={fontWeight}
-              fontStyle={fontStyle}
-              textAlign={textAlign}
+              fontSize={fontSize as string | number | undefined}
+              fontWeight={fontWeight as string | number | undefined}
+              fontStyle={fontStyle as string | undefined}
+              textAlign={textAlign as string | undefined}
               onFontSizeChange={(value) =>
-                setProp((props: any) => {
+                setProp((props) => {
                   props.fontSize = value;
                 })
               }
               onFontWeightChange={(value) =>
-                setProp((props: any) => {
+                setProp((props) => {
                   props.fontWeight = value;
                 })
               }
               onFontStyleChange={(value) =>
-                setProp((props: any) => {
+                setProp((props) => {
                   props.fontStyle = value;
                 })
               }
               onTextAlignChange={(value) =>
-                setProp((props: any) => {
+                setProp((props) => {
                   props.textAlign = value;
                 })
               }
@@ -412,18 +397,18 @@ export const StyleControls = ({ nodeProps }: StyleControlsProps) => {
           <CardContent className="space-y-4">
             <ColorPicker
               label="Text Color"
-              value={color || "#000000"}
+              value={(color as string) || "#000000"}
               onChange={(value) =>
-                setProp((props: any) => {
+                setProp((props) => {
                   props.color = value;
                 })
               }
             />
             <ColorPicker
               label="Background Color"
-              value={backgroundColor || "transparent"}
+              value={(backgroundColor as string) || "transparent"}
               onChange={(value) =>
-                setProp((props: any) => {
+                setProp((props) => {
                   props.backgroundColor = value;
                 })
               }
@@ -435,21 +420,36 @@ export const StyleControls = ({ nodeProps }: StyleControlsProps) => {
   );
 };
 
+// Define the type for the selected node data
+interface SelectedNodeData {
+  id: string;
+  name: string;
+  displayName: string;
+  props: Record<string, unknown>;
+  hasSettings: boolean;
+  nodeSettings: ComponentType<NodeSettingsProps> | null;
+  dom: HTMLElement | null;
+}
+
 export const SettingsPanel = () => {
   const { selected, actions } = useEditor((state, query) => {
     const currentNodeId = state.events.selected;
-    let selectedData = null;
+    let selectedData: SelectedNodeData | null = null;
 
-    if (currentNodeId) {
-      selectedData = {
-        id: currentNodeId,
-        name: state.nodes[currentNodeId].data.name,
-        displayName: query.node(currentNodeId).get().displayName,
-        props: state.nodes[currentNodeId].data.props,
-        hasSettings: query.node(currentNodeId).get().related?.settings,
-        nodeSettings: query.node(currentNodeId).get().related?.settings,
-        dom: query.node(currentNodeId).get().dom,
-      };
+    if (currentNodeId && typeof currentNodeId === "string") {
+      const node = state.nodes[currentNodeId];
+      if (node) {
+        const nodeInfo = query.node(currentNodeId).get();
+        selectedData = {
+          id: currentNodeId,
+          name: node.data.name || "Unnamed Node",
+          displayName: nodeInfo.displayName || "Unknown Component",
+          props: node.data.props || {},
+          hasSettings: !!nodeInfo.related?.settings,
+          nodeSettings: nodeInfo.related?.settings || null,
+          dom: nodeInfo.dom,
+        };
+      }
     }
 
     return {
@@ -488,7 +488,8 @@ export const SettingsPanel = () => {
                   React.createElement(selected.nodeSettings, {
                     nodeProps: {
                       ...selected.props,
-                      setProp: (cb) => actions.setProp(selected.id, cb),
+                      setProp: (cb: (props: Record<string, unknown>) => void) =>
+                        actions.setProp(selected.id, cb),
                     },
                   })}
               </TabsContent>
@@ -497,7 +498,8 @@ export const SettingsPanel = () => {
                 <StyleControls
                   nodeProps={{
                     ...selected.props,
-                    setProp: (cb) => actions.setProp(selected.id, cb),
+                    setProp: (cb: (props: Record<string, unknown>) => void) =>
+                      actions.setProp(selected.id, cb),
                   }}
                 />
               </TabsContent>

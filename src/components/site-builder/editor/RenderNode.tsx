@@ -1,18 +1,28 @@
-import React, { useEffect, useRef } from "react";
+import React, { ReactElement, useEffect, useRef } from "react";
 import { useNode, useEditor } from "@craftjs/core";
-import { RenderNodeProps } from "../editorTypes";
 import { cn } from "@/utils/cn";
+
+interface RenderNodeProps {
+  render: ReactElement;
+}
 
 export const RenderNode: React.FC<RenderNodeProps> = ({ render }) => {
   const { id } = useNode();
-  const { isActive } = useEditor((query) => ({
-    isActive: query.getEvent("selected").contains(id),
-  }));
+  const { selected } = useEditor((state) => {
+    const selectedNodes = state.events.selected;
+    const isSelected =
+      typeof selectedNodes === "string"
+        ? selectedNodes === id
+        : Array.isArray(selectedNodes)
+          ? selectedNodes.includes(id)
+          : false;
 
-  const {
-    connectors: { connect, drag },
-  } = useNode((node) => ({
-    dom: node.dom,
+    return {
+      selected: isSelected,
+    };
+  });
+
+  const { connectors } = useNode((node) => ({
     connectors: node.connectors,
   }));
 
@@ -20,19 +30,19 @@ export const RenderNode: React.FC<RenderNodeProps> = ({ render }) => {
 
   useEffect(() => {
     if (currentRef.current) {
-      connect(drag(currentRef.current));
+      connectors.connect(connectors.drag(currentRef.current));
     }
-  }, [connect, drag]);
+  }, [connectors]);
 
   return (
     <div
       ref={currentRef}
       className={cn("relative", {
-        "craftjs-node-selected": isActive,
+        "craftjs-node-selected": selected,
       })}
     >
       {render}
-      {isActive && (
+      {selected && (
         <div
           className="absolute border-2 border-primary pointer-events-none"
           style={{
@@ -53,3 +63,5 @@ export const RenderNode: React.FC<RenderNodeProps> = ({ render }) => {
     </div>
   );
 };
+
+export default RenderNode;

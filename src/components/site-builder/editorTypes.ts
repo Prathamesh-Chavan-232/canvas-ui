@@ -1,21 +1,18 @@
-import { ReactNode } from "react";
+import { ReactNode, ComponentType } from "react";
 
-// Template interface
 export interface Template {
   id: string;
   name: string;
   description: string;
   thumbnail: string;
   category: string;
-  data: any; // The serialized CraftJS data
+  data: unknown;
 }
 
-// Template collection type
 export interface TemplateCollection {
   [key: string]: Template;
 }
 
-// Props types for CraftJS components
 export interface CraftButtonProps {
   text: string;
   variant?:
@@ -26,67 +23,56 @@ export interface CraftButtonProps {
     | "ghost"
     | "link";
   size?: "default" | "sm" | "lg" | "icon";
-  [key: string]: any;
+  [key: string]: unknown;
 }
 
 export interface CraftInputProps {
   placeholder: string;
-  [key: string]: any;
+  [key: string]: unknown;
 }
 
 export interface CraftTextareaProps {
   placeholder: string;
-  [key: string]: any;
+  [key: string]: unknown;
 }
 
 export interface CraftCardProps {
   title: string;
   children?: ReactNode;
-  [key: string]: any;
+  [key: string]: unknown;
 }
 
 export interface ContainerProps {
   children?: ReactNode;
-  [key: string]: any;
+  [key: string]: unknown;
 }
 
 export interface HeadingProps {
   text: string;
   level?: 1 | 2 | 3 | 4 | 5 | 6;
-  [key: string]: any;
+  [key: string]: unknown;
 }
 
 export interface ParagraphProps {
   text: string;
-  [key: string]: any;
+  [key: string]: unknown;
 }
 
-// Settings component props
+export interface NodeProps {
+  [key: string]: unknown;
+  setProp: (cb: (props: Record<string, unknown>) => void) => void;
+}
+
 export interface NodeSettingsProps {
-  nodeProps: {
-    [key: string]: any;
-    setProp: (cb: (props: any) => void) => void;
+  nodeProps: NodeProps;
+}
+
+export interface CraftComponentConfig<T = Record<string, unknown>> {
+  props?: Partial<T>;
+  rules?: {
+    canDrag?: () => boolean;
   };
-}
-
-// RenderNode props
-export interface RenderNodeProps {
-  render: ReactNode;
-}
-
-// ComponentItem props
-export interface ComponentItemProps {
-  title: string;
-  icon: ReactNode;
-  component: ReactNode;
-}
-
-// TemplatesGallery props
-export interface TemplatesGalleryProps {
-  id?: string;
-}
-
-// CraftJSEditor props
-export interface CraftJSEditorProps {
-  initialTemplate?: any;
+  related?: {
+    settings?: ComponentType<NodeSettingsProps>;
+  };
 }
