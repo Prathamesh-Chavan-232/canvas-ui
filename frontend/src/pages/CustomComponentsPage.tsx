@@ -76,14 +76,14 @@ export default function CustomComponentsPage() {
                   >
                     <Pencil className="mr-2 h-4 w-4" /> Edit
                   </Button>
-                  <Button variant="outline" size="sm" onClick={() => {}}>
+                  <Button variant="outline" size="sm" onClick={() => { }}>
                     <Copy className="mr-2 h-4 w-4" /> Duplicate
                   </Button>
                   <Button
                     variant="outline"
                     size="sm"
                     className="text-destructive hover:bg-destructive hover:text-white"
-                    onClick={() => {}}
+                    onClick={() => { }}
                   >
                     <Trash2 className="h-4 w-4" />
                   </Button>
